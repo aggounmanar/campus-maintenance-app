@@ -1,13 +1,591 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>My App</title>
+
+<meta charset="UTF-8">
+
+<title>Smart Maintenance Login</title>
+
+
+<style>
+
+
+body{
+
+margin:0;
+
+font-family:Segoe UI;
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(120deg,#eaf6f8,#ffffff);
+
+animation:fadeIn 1.5s ease;
+
+}
+
+
+/* animation */
+
+@keyframes fadeIn{
+
+from{opacity:0}
+
+to{opacity:1}
+
+}
+
+
+.main{
+
+width:360px;
+
+height:650px;
+
+background:white;
+
+border-radius:25px;
+
+overflow:hidden;
+
+position:relative;
+
+box-shadow:0px 20px 50px rgba(0,0,0,0.15);
+
+}
+
+
+/* wave animation */
+
+.main::before{
+
+content:"";
+
+position:absolute;
+
+width:600px;
+
+height:600px;
+
+background:radial-gradient(circle,#0e8c9c22,#ffffff00);
+
+top:-200px;
+
+left:-200px;
+
+animation:moveWave 8s infinite linear;
+
+}
+
+
+@keyframes moveWave{
+
+0%{transform:rotate(0deg)}
+
+100%{transform:rotate(360deg)}
+
+}
+
+
+.container{
+
+padding:40px;
+
+text-align:center;
+
+animation:slideUp 1s ease;
+
+}
+
+
+@keyframes slideUp{
+
+from{
+
+transform:translateY(40px);
+
+opacity:0;
+
+}
+
+to{
+
+transform:translateY(0);
+
+opacity:1;
+
+}
+
+}
+
+
+.logo{
+
+width:120px;
+
+}
+
+
+.title{
+
+font-size:20px;
+
+color:#0a7f8f;
+
+font-weight:bold;
+
+margin-top:10px;
+
+}
+
+
+.subtitle{
+
+font-size:12px;
+
+color:gray;
+
+margin-bottom:25px;
+
+}
+
+
+label{
+
+display:block;
+
+text-align:left;
+
+margin-top:15px;
+
+color:#0a7f8f;
+
+font-size:14px;
+
+}
+
+
+/* input style */
+
+.input-box{
+
+position:relative;
+
+}
+
+
+input{
+
+width:100%;
+
+padding:13px;
+
+border:none;
+
+border-radius:12px;
+
+margin-top:5px;
+
+background:#f1f6f7;
+
+outline:none;
+
+transition:0.3s;
+
+}
+
+
+input:focus{
+
+background:#e3f3f6;
+
+transform:scale(1.02);
+
+}
+
+
+/* eye icon */
+
+.eye{
+
+position:absolute;
+
+right:10px;
+
+top:18px;
+
+cursor:pointer;
+
+color:#0a7f8f;
+
+}
+
+
+/* login button */
+
+.login{
+
+margin-top:35px;
+
+width:220px;
+
+height:55px;
+
+border:none;
+
+border-radius:40px;
+
+color:white;
+
+font-size:16px;
+
+background:linear-gradient(45deg,#0e8c9c,#066c78);
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+
+.login:hover{
+
+transform:scale(1.05);
+
+box-shadow:0px 10px 25px #0e8c9c55;
+
+}
+
+
+/* forgot password */
+
+.forgot{
+
+margin-top:20px;
+
+font-size:14px;
+
+color:#0a7f8f;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+
+.forgot:hover{
+
+color:#066c78;
+
+text-decoration:underline;
+
+}
+
+
+/* engineer icon */
+
+.engineer{
+
+position:absolute;
+
+bottom:15px;
+
+right:15px;
+
+width:90px;
+
+opacity:0.6;
+
+}
+
+
+/* error message */
+
+.error{
+
+color:red;
+
+font-size:12px;
+
+margin-top:5px;
+
+display:none;
+
+}
+.loading{
+
+pointer-events:none;
+
+opacity:0.8;
+
+}
+
+
+.spinner{
+
+border:3px solid white;
+
+border-top:3px solid transparent;
+
+border-radius:50%;
+
+width:20px;
+
+height:20px;
+
+animation:spin 1s linear infinite;
+
+margin:auto;
+
+}
+
+
+@keyframes spin{
+
+0%{transform:rotate(0deg)}
+
+100%{transform:rotate(360deg)}
+
+}
+
+
+</style>
+
 </head>
+
+
+
 <body>
 
-<h1>Hello Project 🚀</h1>
+
+
+<div class="main">
+
+
+<div class="container">
+
+
+<img src="logo.png" class="logo">
+
+
+<div class="title">
+
+SMART MAINTENANCE
+
+<br>
+
+FEEDBACK MAP
+
+</div>
+
+
+<div class="subtitle">
+
+AN INTELLIGENT REPORTING SYSTEM
+
+</div>
+
+
+
+<label>
+
+Username or Email
+
+</label>
+
+
+<div class="input-box">
+
+<input
+
+type="text"
+
+id="user"
+
+placeholder="Enter your campus ID">
+
+</div>
+
+
+<div class="error"
+
+id="userError">
+
+Please enter your username
+
+</div>
+
+
+
+<label>
+
+Password
+
+</label>
+
+
+<div class="input-box">
+
+
+<input
+
+type="password"
+
+id="password"
+
+placeholder="Enter your password">
+
+
+<span
+
+class="eye"
+
+onclick="togglePassword()">
+
+
+
+</span>
+
+
+</div>
+
+
+<div class="error"
+
+id="passError">
+
+Password required
+
+</div>
+
+
+
+<button
+class="login"
+id="loginBtn"
+onclick="login()">
+
+LOGIN →
+
+</button>
+
+
+<div
+
+class="forgot"
+
+onclick="forgotPassword()">
+
+Forgot Password?
+
+</div>
+
+
+</div>
+
+
+<img
+
+src="engineer.png"
+
+class="engineer">
+
+
+</div>
+
+
+<script>
+
+function togglePassword(){
+
+let pass=document.getElementById("password");
+
+if(pass.type==="password")
+
+pass.type="text";
+
+else
+
+pass.type="password";
+
+}
+
+
+
+function login(){
+
+let user=document.getElementById("user");
+
+let pass=document.getElementById("password");
+
+let btn=document.getElementById("loginBtn");
+
+
+if(user.value===""){
+
+document.getElementById("userError").style.display="block";
+
+return;
+
+}
+
+
+if(pass.value===""){
+
+document.getElementById("passError").style.display="block";
+
+return;
+
+}
+
+
+btn.classList.add("loading");
+
+btn.innerHTML="<div class='spinner'></div>";
+
+
+
+setTimeout(()=>{
+
+btn.innerHTML="✔ Welcome";
+
+btn.style.background="linear-gradient(45deg,#00b894,#019875)";
+
+alert("Login Successful ✔");
+
+},2000);
+
+
+}
+
+
+
+function forgotPassword(){
+
+let email=prompt("Enter your email to reset password");
+
+
+if(email!=null)
+
+alert("Reset link sent successfully ✔");
+
+}
+
+
+</script>
+
 
 </body>
+
 </html>
   
   
