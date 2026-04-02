@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Status & Priority</title>
+<style>
+body{
+    font-family:Segoe UI;
+    background:#f0f4f7;
+    margin:0;
+    padding:20px;
+}
+h2{
+    text-align:center;
+    color:#0a7f8f;
+}
+.table-container{
+    max-width:800px;
+    margin:20px auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th, td{
+    padding:10px;
+    text-align:left;
+    border-bottom:1px solid #ddd;
+}
+select{
+    padding:6px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    outline:none;
+}
+button{
+    padding:6px 12px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(45deg,#0e8c9c,#066c78);
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    margin:2px;
+}
+.delete-btn{
+    background:linear-gradient(45deg,#c62828,#e53935);
+}
+.back{
+    margin:10px 20px;
+    cursor:pointer;
+    color:#0a7f8f;
+    font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<div class="back" onclick="history.back()">← Back</div>
+
+<h2>Manage Status & Priority</h2>
+<div class="table-container">
+<table id="reportsTable">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Reports injected here -->
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" style="text-align:center;">
+                <button id="saveAllBtn">💾 Save All</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+<script>
+// جلب التقارير من localStorage أو توليد بيانات تجريبية إذا فارغ
+let reports = JSON.parse(localStorage.getItem("reports") || "[]");
+
+if(reports.length === 0){
+    reports = [
+        {title:"Water Leak", status:"Reported", priority:"High", lat:36.0,lng:6.0},
+        {title:"Broken AC", status:"In Progress", priority:"Medium", lat:36.001,lng:6.002},
+        {title:"Fire Alarm", status:"Validated", priority:"High", lat:36.002,lng:6.001}
+    ];
+    localStorage.setItem("reports", JSON.stringify(reports));
+}
+
+const tbody = document.querySelector("#reportsTable tbody");
+
+// ضمان وجود قيم افتراضية
+reports.forEach(r=>{
+    r.status = r.status || "Reported";
+    r.priority = r.priority || "Low";
+    r.title = r.title || "Untitled";
+});
+
+function renderReports(){
+    tbody.innerHTML = "";
+    reports.forEach((r,i)=>{
+        const tr = document.createElement("tr");
+
+        // Title
+        const tdTitle = document.createElement("td");
+        tdTitle.textContent = r.title;
+        tr.appendChild(tdTitle);
+
+        // Status Dropdown
+        const tdStatus = document.createElement("td");
+        const statusSelect = document.createElement("select");
+        ["Reported","Validated","Assigned","In Progress","Resolved"].forEach(s=>{
+            const option = document.createElement("option");
+            option.value = s;
+            option.textContent = s;
+            if(s === r.status) option.selected = true;
+            statusSelect.appendChild(option);
+        });
+        tdStatus.appendChild(statusSelect);
+        tr.appendChild(tdStatus);
+
+        // Priority Dropdown
+        const tdPriority = document.createElement("td");
+        const prioritySelect = document.createElement("select");
+        ["Low","Medium","High"].forEach(p=>{
+            const option = document.createElement("option");
+            option.value = p;
+            option.textContent = p;
+            if(p === r.priority) option.selected = true;
+            prioritySelect.appendChild(option);
+        });
+        tdPriority.appendChild(prioritySelect);
+        tr.appendChild(tdPriority);
+
+        // Action (Delete لكل تقرير)
+        const tdAction = document.createElement("td");
+        const delBtn = document.createElement("button");delBtn.textContent = "Delete";
+        delBtn.classList.add("delete-btn");
+        delBtn.dataset.index = i; // index ديناميكي
+        delBtn.onclick = function(e){
+            var idx = e.target.dataset.index;
+            if(confirm("Are you sure you want to delete \"" + reports[idx].title + "\"?")){
+                reports.splice(idx,1);
+                localStorage.setItem("reports",JSON.stringify(reports));
+                renderReports(); // تحديث الجدول
+                if(typeof renderMap === "function") renderMap(); // حذف pin تلقائي على الخريطة
+            }
+        };
+        tdAction.appendChild(delBtn);
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
+    });
+}
+
+// زر Save All لتحديث localStorage
+const saveAllBtn = document.getElementById("saveAllBtn");
+saveAllBtn.onclick = ()=>{
+    tbody.querySelectorAll("tr").forEach((tr, i)=>{
+        const status = tr.querySelector("td:nth-child(2) select").value;
+        const priority = tr.querySelector("td:nth-child(3) select").value;
+        reports[i].status = status;
+        reports[i].priority = priority;
+    });
+    localStorage.setItem("reports", JSON.stringify(reports));
+    alert("All changes saved ✔");
+    if(typeof renderMap === "function") renderMap(); // تحديث pins بعد حفظ التعديلات
+};
+
+renderReports();
+</script>
+
+</body>
+</html>

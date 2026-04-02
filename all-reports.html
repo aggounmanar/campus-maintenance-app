@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>All Reports</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f0f4f7;
+}
+
+/* Navigation bar */
+
+.navbar{
+background:#0a7f8f;
+padding:15px;
+color:white;
+display:flex;
+gap:25px;
+font-size:18px;
+}
+
+.navbar span{
+cursor:pointer;
+}
+
+.navbar span:hover{
+text-decoration:underline;
+}
+
+/* container */
+
+.container{
+max-width:900px;
+margin:40px auto;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* title */
+
+h2{
+text-align:center;
+color:#0a7f8f;
+}
+
+/* report card */
+
+.report{
+background:#f9f9f9;
+padding:15px;
+margin:15px 0;
+border-radius:12px;
+border-left:6px solid #0a7f8f;
+}
+
+/* status colors */
+
+.status{
+font-weight:bold;
+}
+
+.priority{
+font-weight:bold;
+}
+
+/* back arrow */
+
+.back{
+padding:10px;
+font-size:18px;
+cursor:pointer;
+color:#0a7f8f;
+}
+
+/* engineer image */
+
+.engineer{
+position:absolute;
+bottom:15px;
+right:15px;
+width:90px;
+opacity:0.6;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="back"
+onclick="history.back()">← Back</div>
+
+
+<div class="navbar">
+
+<span onclick="location.href='admin-dashboard.html'">
+Map
+</span>
+
+<span onclick="location.href='all-reports.html'">
+Reports
+</span>
+
+<span onclick="location.href='manage-status.html'">
+Manage Status & Priority
+</span>
+
+</div>
+
+
+<div class="container">
+
+<h2>All Reports List</h2>
+
+<div id="reportsList"></div>
+
+</div>
+
+
+<img src="engineer.png"
+class="engineer">
+
+
+<script>
+
+var reports =
+JSON.parse(localStorage.getItem("reports") || "[]");
+
+var container =
+document.getElementById("reportsList");
+
+
+if(reports.length === 0){
+
+container.innerHTML =
+"<p style='text-align:center'>No reports yet.</p>";
+
+}
+
+
+reports.forEach(function(r){
+
+var div =
+document.createElement("div");
+
+div.className = "report";
+
+
+/* status color logic */
+
+var statusColor = "#555";
+
+if(r.status === "Reported") statusColor="#e67e22";
+if(r.status === "Validated") statusColor="#3498db";
+if(r.status === "Assigned") statusColor="#9b59b6";
+if(r.status === "In Progress") statusColor="#f1c40f";
+if(r.status === "Resolved") statusColor="#2ecc71";
+
+
+/* priority color logic */
+
+var priorityColor = "#555";
+
+if(r.priority === "Low") priorityColor="#2ecc71";
+if(r.priority === "Medium") priorityColor="#f39c12";
+if(r.priority === "High") priorityColor="#e74c3c";
+
+
+div.innerHTML =
+
+"<b>" + r.title + "</b><br><br>" +
+
+r.description + "<br><br>" +
+
+"Status: <span class='status' style='color:"+statusColor+"'>" +
+
+r.status +
+
+"</span><br>" +
+
+"Priority: <span class='priority' style='color:"+priorityColor+"'>" +
+
+r.priority +
+
+"</span>";
+
+
+container.appendChild(div);
+
+});
+
+</script>
+
+</body>
+</html>
