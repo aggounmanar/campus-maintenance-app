@@ -1,0 +1,164 @@
+description,priority
+light bulb not working,low
+broken chair in classroom,low
+printer not working,low
+water fountain not working,low
+broken desk,low
+broken window in lab,low
+broken light switch,low
+ac remote missing,low
+printer jammed,low
+broken lock on locker,low
+broken shelf,low
+broken handle on door,low
+broken chair wheel,low
+broken drawer,low
+broken door stopper,low
+broken clock,low
+broken coat rack,low
+broken cabinet handle,low
+broken whiteboard,low
+broken keyboard,low
+broken mop,low
+broken stapler,low
+broken ruler,low
+broken trash can,low
+broken pencil sharpener,low
+broken hole punch,low
+broken tape dispenser,low
+sticky door handle,low
+loose screw on table,low
+cracked phone charging station,low
+broken coat hook,low
+missing label on door,low
+scratched whiteboard,low
+loose carpet tile,low
+faded room number sign,low
+broken pencil,low
+sticky drawer,low
+cracked floor tile,low
+faded sign,low
+broken coat hanger,low
+missing screw,low
+scratched desk,low
+loose chair leg,low
+broken zipper on chair,low
+wobbly table,low
+stuck drawer,low
+broken eraser,low
+dirty whiteboard,low
+minor scratch on desk,low
+loose door knob,low
+broken rubber feet on chair,low
+sticky keyboard key,low
+broken zipper on cushion,low
+missing drawer handle,low
+scratched table surface,low
+loose shelf bracket,low
+projector not displaying properly,medium
+wifi not working in library,medium
+door handle broken,medium
+smart board not responding,medium
+security camera offline,medium
+elevator making noise,medium
+window won't close,medium
+bad smell from drain,medium
+projector lamp burnt,medium
+fridge not cooling,medium
+toilet flush broken,medium
+elevator button not working,medium
+ac not cooling enough,medium
+ac making loud noise,medium
+lights flickering,medium
+network cable damaged,medium
+fan speed controller broken,medium
+water purifier not working,medium
+ac thermostat broken,medium
+emergency light battery dead,medium
+ac filter clogged,medium
+ac frozen unit,medium
+water discoloration,medium
+ac drain line clogged,medium
+slow internet connection,medium
+printer needs toner,medium
+broken soap dispenser,medium
+stained ceiling tile,medium
+noisy bathroom fan,medium
+stuck window,medium
+broken chair caster,medium
+water dispenser not cold,medium
+clock battery dead,medium
+slow computer boot,medium
+printer out of paper,medium
+flickering monitor,medium
+stuck CD drive,medium
+weak wifi signal,medium
+noisy CPU fan,medium
+keyboard not responding,medium
+mouse not working,medium
+speaker crackling,medium
+USB port not working,medium
+toilet is leaking water everywhere,high
+air conditioner completely broken,high
+no hot water in building,high
+sewage smell in basement,high
+fire alarm keeps beeping,high
+ceiling fan wobbling,high
+plumbing leak in bathroom,high
+heating system not working,high
+broken glass on floor,high
+ac leaking water,high
+network switch down,high
+water leak from ceiling,high
+server down,high
+floor wet slippery,high
+water tank overflow,high
+window glass cracked,high
+water drainage blocked,high
+power outage partial,high
+leaking radiator,high
+elevator door not closing,high
+gas smell,high
+no hot water in sink,high
+broken window lock,high
+collapsed ceiling tile,high
+overflowing trash bin,high
+broken hand dryer,high
+elevator too slow,high
+stuck fire exit door,high
+water pipe burst flooding hallway,critical
+elevator stuck between floors,critical
+electrical sparking from outlet,critical
+server room overheating alarm,critical
+no electricity in building,critical
+exposed electrical wires,critical
+emergency exit blocked,critical
+dust accumulation in server,critical
+ac compressor failed,critical
+water pipe frozen,critical
+sewage backup,critical
+electrical short circuit,critical
+steam pipe burst,critical
+missing fire extinguisher,critical
+gas leak smell,critical
+broken emergency light,critical
+gas leak in lab,critical
+fire sprinkler broken,critical
+chemical spill,critical
+collapsed ceiling,critical
+flooded basement,critical
+elevator cable snap,critical
+broken fire alarm,critical
+carbon monoxide leak,critical
+structural crack,critical
+broken emergency generator,critical
+burst pipe emergency,critical
+electrical fire hazard,critical
+building evacuation needed,critical
+structural damage risk,critical
+hazardous material spill,critical
+gas explosion risk,critical
+collapsed walkway,critical
+broken security system,critical
+flooded electrical room,critical
+elevator free fall,critical
