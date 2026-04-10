@@ -1,0 +1,245 @@
+# train model 
+# This file creates and trains the AI prediction model
+
+# IMPORT LIBRARIES
+# ============================================================
+import pandas as pd  # For reading CSV files and handling data tables
+from datetime import datetime, timedelta  # For working with dates and calculating future dates
+import numpy as np  # For mathematical operations (average, min, max)
+
+
+# DEFINE THE AI MODEL CLASS
+# ============================================================
+class PredictiveModel:
+    """
+    This class is the AI model that predicts when equipment will fail.
+    Think of it as a "prediction engine" that learns from past failures.
+    """
+    
+    def __init__(self, patterns_file="failure_patterns.csv"):
+        """
+        CONSTRUCTOR - This runs when you create a new model
+        Example: model = PredictiveModel()
+        
+        Parameters:
+        - patterns_file: The CSV file containing failure patterns we discovered
+        
+        What this does:
+        1. Loads the patterns from the CSV file
+        2. Builds the AI model from those patterns
+        """
+        
+        # STEP 1: Load the patterns from the CSV file into a pandas DataFrame
+        # DataFrame is like an Excel spreadsheet in Python
+        # Example: patterns.csv contains columns like [room_id, equipment, avg_interval, last_failure]
+        self.patterns = pd.read_csv(patterns_file)
+        
+        # STEP 2: Build the actual AI model by calling _build_model()
+        # self.model will store the trained model
+        self.model = self._build_model()
+    
+    
+    def _build_model(self):
+        """
+        PRIVATE METHOD (underscore means "internal use only")
+        This converts raw patterns into a usable AI model
+        
+        What it does:
+        - Loops through each row in the patterns file
+        - Creates a dictionary entry for each room+equipment combination
+        - Stores the average interval, last failure date, and confidence
+        
+        Returns:
+        - A dictionary where keys are "room_equipment" and values are pattern data
+        """
+        
+        # Create an empty dictionary to store our model
+        # Dictionary is like a phone book: you look up by key, get value
+        model = {}
+        
+        # Loop through each row in the patterns DataFrame
+        # patterns.iterrows() gives us (index, row_data) for each row
+        # The underscore "_" means we don't care about the index number
+        for _, row in self.patterns.iterrows():
+            
+            # Create a unique key by combining room_id and equipment
+            # Example: room_id=301, equipment="AC" becomes "301_AC"
+            # This key lets us quickly find predictions for specific equipment
+            key = f"{row['room_id']}_{row['equipment']}"
+            
+            # Store the pattern data in the model dictionary
+            # This is what the AI "learns" - it remembers patterns for each equipment
+            model[key] = {
+                'avg_interval': row['avg_interval'],      # Average days between failures
+                'last_failure': row['last_failure'],      # Date of most recent failure
+                'confidence': self._calculate_confidence(row)  # How confident we are
+            }
+        
+        # Return the completed model
+        return model
+    
+    
+    def _calculate_confidence(self, row):
+        """
+        Calculate how confident we are in this prediction
+        Confidence is like a grade: higher = more reliable
+        
+        Formula: 
+        - If only 1 failure: 50% confidence (not enough data)
+        - Otherwise: Calculate how consistent the pattern is
+        - Less variation = higher confidence
+        
+        Parameters:
+        - row: A row from the patterns DataFrame containing failure_count, min_interval, max_interval, avg_interval
+        
+        Returns:
+        - A number between 50 and 95 representing confidence percentage
+        """
+        
+        # Check if we have less than 2 failures
+        # You need at least 2 failures to see a pattern
+        if row['failure_count'] < 2:
+            # Not enough data, return medium confidence (50%)
+            return 50
+        
+        # Calculate variation in the pattern
+        # Variation = (longest interval - shortest interval) / average interval
+        # Example: intervals [46, 39] 
+        #   max=46, min=39, avg=42.5
+        #   variation = (46-39) / 42.5 = 7/42.5 = 0.16 (16% variation)
+        variation = (row['max_interval'] - row['min_interval']) / row['avg_interval']
+        
+        # Convert variation to confidence
+        # If variation = 0% (perfect pattern) → confidence = 100%
+        # If variation = 50% (very inconsistent) → confidence = 50%
+        # We limit between 50% and 95% so it never goes too low or too high
+        confidence = 100 - (variation * 100)
+        
+        # Make sure confidence stays between 50 and 95
+        # max(50, x) = if x < 50, use 50
+        # min(95, x) = if x > 95, use 95
+        return max(50, min(95, confidence))
+    
+    
+    def predict(self, room_id, equipment):
+        """
+        PUBLIC METHOD - This is what you call to get a prediction
+        Example: model.predict(301, "AC")
+        
+        What it does:
+        1. Looks up the pattern for the requested room and equipment
+        2. Calculates when the next failure will happen
+        3. Returns prediction details
+        
+        Parameters:
+        - room_id: The room number (example: 301)
+        - equipment: Type of equipment (example: "AC")
+        
+        Returns:
+        - Dictionary with prediction results or error message
+        """
+        
+        # Create the same key format used when building the model
+        # Example: room_id=301, equipment="AC" → "301_AC"
+        key = f"{room_id}_{equipment}"
+        
+        # Check if this room+equipment exists in our model
+        # If not found, return an error message
+        if key not in self.model:
+            return {
+                'success': False, 
+                'error': f'No pattern found for Room {room_id} {equipment}'
+            }
+        
+        # Get the pattern data for this specific equipment
+        pattern = self.model[key]
+        
+        # Convert the last_failure date from string to datetime object
+        # datetime objects allow us to add days to a date
+        # Example: "2025-04-05" → datetime(2025, 4, 5)
+        last_date = datetime.strptime(pattern['last_failure'], '%Y-%m-%d')
+        
+        # Calculate the predicted next failure date
+        # Add average_interval days to the last failure date
+        # Example: last_date = April 5, avg_interval = 42 days
+        #          next_date = April 5 + 42 days = May 17
+        next_date = last_date + timedelta(days=int(pattern['avg_interval']))
+        
+        # Return the prediction results
+        return {
+            'success': True,                                    # Was prediction successful?
+            'room_id': room_id,                                 # Room number
+            'equipment': equipment,                             # Equipment type
+            'last_failure': pattern['last_failure'],            # When it last broke
+            'predicted_next': next_date.strftime('%Y-%m-%d'),   # When it will break next
+            'days_until': int(pattern['avg_interval']),         # Days until next failure
+            'confidence': pattern['confidence']                 # How confident we are
+        }
+    
+    
+    def predict_all(self):
+        """
+        Get predictions for ALL equipment in the model
+        
+        What it does:
+        - Loops through every equipment in the model
+        - Calls predict() for each one
+        - Returns list of all predictions
+        
+        Returns:
+        - List of prediction dictionaries for all equipment
+        """
+        
+        # Create an empty list to store all predictions
+        results = []
+        
+        # Loop through every key in the model
+        # model.keys() returns all the "room_equipment" keys
+        for key in self.model:
+            
+            # Split the key back into room and equipment
+            # Example: "301_AC" → ["301", "AC"]
+            parts = key.split('_')
+            room = parts[0]      # First part is room number
+            equipment = parts[1]  # Second part is equipment type
+            
+            # Convert room from string to integer (required by predict method)
+            # Call predict() for this room and equipment
+            # Add the result to our results list
+            results.append(self.predict(int(room), equipment))
+        
+        # Return the complete list of predictions
+        return results
+
+
+# MAIN EXECUTION - This runs when you execute the script
+# ============================================================
+if __name__ == "__main__":
+    """
+    This section only runs when you type: python train_model.py
+    It tests the model and shows predictions
+    """
+    
+    # Print header
+    print("🤖 STEP 4: Training AI Model")
+    print("=" * 40)
+    
+    # Create a new instance of the PredictiveModel class
+    # This automatically loads the patterns and builds the model
+    model = PredictiveModel()
+    
+    # Print predictions header
+    print("\n📊 PREDICTIONS:")
+    
+    # Get all predictions by calling predict_all()
+    all_predictions = model.predict_all()
+    
+    # Loop through each prediction and display it
+    for pred in all_predictions:
+        
+        # Only show successful predictions (skip errors)
+        if pred['success']:
+            print(f"\n🏠 Room {pred['room_id']} - {pred['equipment']}")
+            print(f"   Last failure: {pred['last_failure']}")
+            print(f"   🔮 Next failure: {pred['predicted_next']} (in {pred['days_until']} days)")
+            print(f"   📊 Confidence: {pred['confidence']}%")
