@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+/* Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-animation::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(52,152,219,0.1) 2px, transparent 2px);
+    background-size: 50px 50px;
+    animation: moveBg 30s linear infinite;
+}
+
+@keyframes moveBg {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+.back {
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #3498db;
+    display: inline-block;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+.back:hover {
+    transform: translateX(-5px);
+    background: rgba(52,152,219,0.3);
+    color: white;
+}
+
+.topbar {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.5s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.topbar h1 {
+    color: white;
+    font-size: 32px;
+    text-shadow: 0 0 20px rgba(52,152,219,0.5);
+}
+
+.topbar p {
+    color: rgba(255,255,255,0.7);
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding: 35px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #3498db;
+    font-weight: 500;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.9);
+    font-size: 14px;
+    transition: all 0.3s;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 15px rgba(52,152,219,0.5);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.location-info {
+    background: rgba(52,152,219,0.2);
+    padding: 12px 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 14px;
+    border-left: 3px solid #3498db;
+}
+
+.image-preview {
+    margin-top: 10px;
+    display: none;
+    position: relative;
+}
+
+.image-preview img {
+    max-width: 100%;
+    border-radius: 12px;
+    max-height: 200px;
+}
+
+.remove-image {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.remove-image:hover {
+    background: #c0392b;
+    transform: scale(1.02);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.submit-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(52,152,219,0.4);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 10px;
+}

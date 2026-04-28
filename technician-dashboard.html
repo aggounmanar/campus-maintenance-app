@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technician Dashboard | Smart Maintenance</title>
+    <link rel="stylesheet" href="technician-dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="orb" style="width: 300px; height: 300px; background: #3498db; top: -100px; left: -100px;"></div>
+    <div class="orb" style="width: 200px; height: 200px; background: #2ecc71; bottom: -50px; right: -50px; animation-delay: 5s;"></div>
+
+    <div class="back" onclick="history.back()">← Back</div>
+    <div class="navbar">
+        <span onclick="location.href='technician-dashboard.html'">🗺️ Map</span>
+        <span onclick="location.href='all-reports.html'">📋 Reports</span>
+    </div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="filter-box">
+        <label>🔍 Filter Reports:</label>
+        <select id="filterSelect" onchange="filterPins()">
+            <option value="all">All Reports</option>
+            <option value="Reported">Reported</option>
+            <option value="Validated">Validated</option>
+            <option value="Assigned">Assigned</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+            <option value="High">High Priority</option>
+            <option value="Medium">Medium Priority</option>
+            <option value="Low">Low Priority</option>
+        </select>
+    </div>
+
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="campus-map.js"></script>
+    <script src="technician-dashboard.js"></script>
+</body>
+</html>

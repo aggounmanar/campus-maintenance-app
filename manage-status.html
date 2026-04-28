@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Status | Smart Maintenance</title>
+    <link rel="stylesheet" href="manage-status.css">
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="back" onclick="history.back()">← Back</div>
+    <h2>⚙️ Manage Reports - Status & Priority</h2>
+
+    <div class="container">
+        <table id="tbl">
+            <thead>
+                <tr>
+                    <th>📋 Title</th>
+                    <th>📊 Status</th>
+                    <th>⚠️ Priority</th>
+                    <th>✅ Solution</th>
+                    <th>💬 Comments</th>
+                    <th>🗑️ Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" style="text-align:center">
+                        <button id="saveAll" class="save-btn">💾 Save All Changes</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>💬 Comments & Discussion</h3>
+            <div id="commentsList"></div>
+            <div class="add-comment">
+                <input type="text" id="newComment" placeholder="Write your comment...">
+                <button onclick="addComment()" style="background:#3498db; color:white;">Add</button>
+            </div>
+            <button onclick="closeModal()" style="margin-top:15px; background:#95a5a6; color:white; width:100%;">Close</button>
+        </div>
+    </div>
+
+    <script src="manage-status.js"></script>
+</body>
+</html>

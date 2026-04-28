@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Report | Smart Maintenance</title>
+    <link rel="stylesheet" href="submit-report.css">
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="back" onclick="history.back()">← Back</div>
+
+    <div class="topbar">
+        <h1>📝 Submit New Report</h1>
+        <p>Help us improve the campus by reporting issues</p>
+    </div>
+
+    <div class="form-container">
+        <div class="location-info" id="locationInfo">
+            📍 Loading location...
+        </div>
+
+        <div class="form-group">
+            <label>Category <span class="required">*</span></label>
+            <select id="category_id">
+                <option value="1">Lighting</option>
+                <option value="2">Air Conditioning</option>
+                <option value="3">Network</option>
+                <option value="4">Plumbing</option>
+                <option value="5">Classroom Equipment</option>
+                <option value="6">Electrical</option>
+                <option value="7">Cleaning</option>
+                <option value="8">Security</option>
+                <option value="9">Other</option>
+                <option value="10">HVAC</option>
+                <option value="11">Furniture</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Building Name <span class="required">*</span></label>
+            <select id="building_name" onchange="toggleRoomNumberField()">
+                <option value="">Select Building</option>
+                <option value="Amphi Haba Belgacem">Amphi Haba Belgacem</option>
+                <option value="Parking Zone North">Parking Zone North</option>
+                <option value="Central Green">Central Green</option>
+                <option value="Small Pavilion">Small Pavilion</option>
+                <option value="Academic Block A">Academic Block A</option>
+                <option value="Amphi Rachid Touri">Amphi Rachid Touri</option>
+                <option value="Administration">Administration</option>
+                <option value="Admin Annex">Admin Annex</option>
+                <option value="Faculty Rooms - Wing 1">Faculty Rooms - Wing 1</option>
+                <option value="Cafeteria">Cafeteria</option>
+                <option value="Classroom Complex B">Classroom Complex B</option>
+                <option value="Amphi 3 - Modern Hall">Amphi 3 - Modern Hall</option>
+                <option value="Tennis Court">Tennis Court</option>
+                <option value="Basketball Court">Basketball Court</option>
+                <option value="Amphi 4">Amphi 4</option>
+                <option value="AI Lab / Physics Lab">AI Lab / Physics Lab</option>
+                <option value="Woodland Garden">Woodland Garden</option>
+                <option value="Parking Central">Parking Central</option>
+                <option value="Security Post">Security Post</option>
+                <option value="Storage Facility">Storage Facility</option>
+                <option value="Outdoor Stage">Outdoor Stage</option>
+                <option value="Olive Grove">Olive Grove</option>
+                <option value="South Meadow">South Meadow</option>
+                <option value="Parking Lot South">Parking Lot South</option>
+                <option value="Main Entrance">Main Entrance</option>
+                <option value="Information Desk">Information Desk</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="roomNumberGroup" style="display: none;">
+            <label>Room Number <span class="required">*</span></label>
+            <select id="room_number">
+                <option value="">Select Room Number</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Floor (Optional)</label>
+            <input type="number" id="floor" placeholder="e.g., 2">
+        </div>
+
+        <div class="form-group">
+            <label>Title <span class="required">*</span></label>
+            <input type="text" id="title" placeholder="e.g., Broken light in hallway">
+        </div>
+
+        <div class="form-group">
+            <label>Description <span class="required">*</span></label>
+            <textarea id="description" placeholder="Please describe the issue in detail..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Date & Time</label>
+            <input type="datetime-local" id="reportDate">
+        </div>
+
+        <div class="form-group">
+            <label>Photo (Optional)</label>
+            <input type="file" id="fileUpload" accept="image/*" onchange="previewImage(this)">
+            <div class="image-preview" id="imagePreview">
+                <img id="previewImg">
+                <button type="button" class="remove-image" onclick="removeImage()">Remove Photo</button>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="submitReport()">🚀 Submit Report</button>
+    </div>
+
+    <script src="submit-report.js"></script>
+</body>
+</html>

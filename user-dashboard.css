@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-animation::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(52,152,219,0.1) 2px, transparent 2px);
+    background-size: 50px 50px;
+    animation: moveBg 30s linear infinite;
+}
+
+@keyframes moveBg {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* Floating Orbs */
+.orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: floatOrb 15s infinite;
+    z-index: -1;
+}
+
+@keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    50% { transform: translate(50px, -50px) scale(1.2); opacity: 0.5; }
+}
+
+/* Navbar - Map only */
+.navbar {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px);
+    padding: 18px 30px;
+    color: white;
+    display: flex;
+    gap: 30px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar span {
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    padding: 5px 0;
+}
+
+.navbar span::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    transition: width 0.3s;
+}
+
+.navbar span:hover::after {
+    width: 100%;
+}
+
+.navbar span:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 0 20px rgba(52,152,219,0.5);
+}
+
+.back {
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #3498db;
+    display: inline-block;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    margin: 15px;
+}
+
+.back:hover {
+    transform: translateX(-5px);
+    background: rgba(52,152,219,0.3);
+    color: white;
+}
+
+/* Info Message */
+.info-message {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding: 15px 20px;
+    margin: 10px 20px;
+    border-radius: 15px;
+    color: white;
+    font-size: 14px;
+    border-left: 4px solid #3498db;
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-message strong {
+    color: #3498db;
+}
+
+/* Map Container */
+.map-container {
+    margin: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.8s ease;
+}
+
+#map {
+    height: 550px;
+    width: 100%;
+}
+
+/* Welcome Card */
+.welcome-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    margin: 10px 20px;
+    padding: 15px 20px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.5s ease;
+}
+
+.welcome-text {
+    color: white;
+}
+
+.welcome-text h3 {
+    color: #3498db;
+}
+
+.report-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+
+.report-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(52,152,219,0.4);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+
+/* Notification */
+#notify {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    z-index: 1000;
+    display: none;
+    animation: slideInRight 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================
+   EXTERNAL TOOLBAR - COMPLETE REPLACEMENT
+   ============================================ */
+.external-map-toolbar {
+    background: rgba(20, 30, 40, 0.95);
+    backdrop-filter: blur(20px);
+    margin: 10px 20px 15px 20px;
+    padding: 15px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.5s ease;
+}
+
+.toolbar-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.toolbar-btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toolbar-btn.primary {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+}
+
+.toolbar-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #3498db, #3aa8e8);
+}
+
+.toolbar-btn.success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+}
+
+.toolbar-btn.success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(46, 204, 113, 0.4);
+    background: linear-gradient(135deg, #2ecc71, #3ae88a);
+}
+
+/* Search Area */
+.search-area {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#extSearchInput {
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    transition: all 0.3s;
+}
+
+#extSearchInput:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+}
+
+.search-results-list {
+    background: white;
+    border-radius: 16px;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.search-results-list.show {
+    display: block;
+}
+
+.search-results-list .search-result-item {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.2s;
+    color: #333;
+}
+
+.search-results-list .search-result-item:hover {
+    background: #3498db;
+    color: white;
+}
+
+.search-results-list .no-result {
+    padding: 15px;
+    text-align: center;
+    color: #999;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .external-map-toolbar {
+        margin: 10px;
+        padding: 12px 15px;
+    }
+    
+    .toolbar-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+    
+    .toolbar-btn span {
+        font-size: 14px;
+    }
+    
+    .welcome-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .info-message {
+        margin: 10px;
+        font-size: 12px;
+    }
+    
+    .map-container {
+        margin: 10px;
+    }
+    
+    #map {
+        height: 450px;
+    }
+}

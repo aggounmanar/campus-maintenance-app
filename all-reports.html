@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Reports | Smart Maintenance</title>
+    <link rel="stylesheet" href="all-reports.css">
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="orb" style="width: 250px; height: 250px; background: #3498db; top: -80px; left: -80px;"></div>
+    <div class="orb" style="width: 180px; height: 180px; background: #2ecc71; bottom: -50px; right: -50px; animation-delay: 5s;"></div>
+
+    <div class="back" onclick="history.back()">← Back</div>
+    <div class="navbar" id="navbar"></div>
+
+    <div class="reports-container">
+        <h2>📋 Reports Management</h2>
+        <div class="filter-bar">
+            <select id="fb" onchange="filterR()">
+                <option value="all">All Buildings</option>
+                <option>Building A</option>
+                <option>Building B</option>
+                <option>Building C</option>
+                
+            </select>
+            <select id="fs" onchange="filterR()">
+                <option value="all">All Status</option>
+                <option>Reported</option>
+                <option>Validated</option>
+                <option>Assigned</option>
+                <option>In Progress</option>
+                <option>Resolved</option>
+            </select>
+            <select id="fp" onchange="filterR()">
+                <option value="all">All Priority</option>
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+            </select>
+            <input type="text" id="st" placeholder="🔍 Search..." onkeyup="filterR()">
+            <button class="export-btn" onclick="exportCSV()">📊 Export CSV</button>
+            <button class="export-btn" onclick="window.print()">🖨️ Print</button>
+        </div>
+        
+        <div class="table-wrapper" id="tableContainer"></div>
+    </div>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <h3>📋 Report Details</h3>
+            <div id="modalBody"></div>
+            <button class="close-modal" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script src="all-reports.js"></script>
+</body>
+</html>
